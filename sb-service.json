@@ -1,0 +1,8 @@
+{
+  "name": "CupraFlow Homepage",
+  "description": "Sitio web oficial y documentación de CupraFlow en Next.js",
+  "type": "next",
+  "role": "homepage",
+  "port": 3005,
+  "start": "npm run dev"
+}
