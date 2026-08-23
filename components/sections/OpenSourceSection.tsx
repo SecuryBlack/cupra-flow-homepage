@@ -53,7 +53,7 @@ export function OpenSourceSection() {
             </p>
             <div className="flex flex-wrap gap-3">
               <Button
-                href="https://github.com/sb-mcampoe/cupra-flow"
+                href="https://github.com/securyblack/cupra-flow"
                 variant="primary"
                 size="md"
                 external
@@ -62,7 +62,7 @@ export function OpenSourceSection() {
                 View source on GitHub
               </Button>
               <Button
-                href="https://github.com/sb-mcampoe/cupra-flow/blob/main/LICENSE"
+                href="https://github.com/securyblack/cupra-flow/blob/main/LICENSE"
                 variant="outline"
                 size="md"
                 external

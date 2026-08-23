@@ -102,7 +102,7 @@ export function Hero() {
             <ArrowRight size={16} />
           </Button>
           <Button
-            href="https://github.com/sb-mcampoe/cupra-flow"
+            href="https://github.com/securyblack/cupra-flow"
             variant="outline"
             size="lg"
             external

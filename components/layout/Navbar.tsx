@@ -75,7 +75,7 @@ export function Navbar() {
         {/* Desktop CTAs */}
         <div className="hidden md:flex items-center gap-2">
           <Button
-            href="https://github.com/sb-mcampoe/cupra-flow"
+            href="https://github.com/securyblack/cupra-flow"
             variant="ghost"
             size="sm"
             external
@@ -113,7 +113,7 @@ export function Navbar() {
           ))}
           <div className="flex gap-2 mt-2">
             <Button
-              href="https://github.com/sb-mcampoe/cupra-flow"
+              href="https://github.com/securyblack/cupra-flow"
               variant="ghost"
               size="sm"
               external

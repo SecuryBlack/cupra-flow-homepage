@@ -4,79 +4,57 @@ import { CodeBlock } from "@/components/ui/CodeBlock";
 import { Callout } from "@/components/ui/Callout";
 
 export const metadata: Metadata = {
-  title: "Offline Buffer",
-  description: "How cupraflow handles connectivity loss without dropping metrics.",
+  title: "Backends & Health Checks",
+  description: "How CupraFlow's backend and health-check configuration works today.",
 };
 
 export default function OfflineBufferPage() {
   return (
     <Prose>
-      <h1>Offline buffer</h1>
+      <h1>Backends & health checks</h1>
       <p>
-        cupraflow is designed to never lose metrics due to temporary network failures. When the
-        OTLP endpoint is unreachable, the agent automatically switches to a local disk buffer
-        and replays accumulated data once connectivity is restored.
+        Backends are configured under <code>[loadbalancer]</code> in <code>config.toml</code>,
+        one <code>[[loadbalancer.backends]]</code> block per target:
       </p>
-
-      <h2>How it works</h2>
-      <ol>
-        <li>
-          On each collection tick, the agent attempts to send the metrics batch to the configured
-          endpoint.
-        </li>
-        <li>
-          If the send fails (connection refused, timeout, DNS failure), the batch is written to a
-          local buffer file on disk instead of being discarded.
-        </li>
-        <li>
-          On the next successful connection, the agent replays all buffered batches in order before
-          resuming normal operation.
-        </li>
-        <li>
-          If the buffer reaches the configured maximum size (<code>cupraflow_BUFFER_MAX_MB</code>,
-          default 100 MB), the oldest batches are dropped to make room for new ones.
-        </li>
-      </ol>
-
-      <Callout variant="info">
-        Metrics in the buffer retain their original timestamps, so your time-series data remains
-        accurate even after a long offline period.
-      </Callout>
-
-      <h2>Buffer location</h2>
-      <p>Default locations by platform:</p>
-      <ul>
-        <li>Linux: <code>/var/lib/cupraflow/buffer/</code></li>
-        <li>Windows: <code>C:\ProgramData\cupraflow\buffer\</code></li>
-      </ul>
-      <p>Override with the <code>cupraflow_BUFFER_PATH</code> environment variable:</p>
       <CodeBlock
-        code={`cupraflow_BUFFER_PATH=/data/cupraflow/buffer`}
-        language="bash"
-      />
+        code={`[loadbalancer]
+enabled                = true
+algorithm               = "round_robin"
+health_check_interval   = 30
 
-      <h2>Monitoring buffer state</h2>
-      <p>The agent logs buffer activity at <code>info</code> level:</p>
-      <CodeBlock
-        code={`INFO cupraflow: endpoint unreachable, buffering metrics (buffer: 12 MB / 100 MB)
-INFO cupraflow: connection restored, replaying 47 buffered batches
-INFO cupraflow: buffer drained, resuming normal operation`}
-        language="bash"
-        filename="Log output"
-        showCopy={false}
-      />
+[[loadbalancer.backends]]
+name    = "web-1"
+address = "10.0.0.10:8080"
+weight  = 1
 
-      <h2>Disk space considerations</h2>
-      <p>
-        At the default 10-second interval, one batch is approximately <strong>1“3 KB</strong>.
-        The default 100 MB buffer can hold roughly <strong>8“24 hours</strong> of metrics before
-        the oldest data starts being dropped.
-      </p>
+[[loadbalancer.backends]]
+name    = "web-2"
+address = "10.0.0.11:8080"
+weight  = 1`}
+        language="toml"
+      />
 
       <Callout variant="warning">
-        Ensure the buffer directory is on a partition with sufficient free space, especially for
-        servers that may experience extended offline periods.
+        This configuration schema exists today, and <code>cupraflow check</code> will validate
+        and print it back to you — but the actual traffic proxying and periodic health-check
+        loop that would use <code>health_check_interval</code> are not implemented yet. CupraFlow
+        is early-stage software; see the{" "}
+        <a
+          href="https://github.com/securyblack/cupra-flow/blob/main/ROADMAP.md"
+          target="_blank"
+          rel="noreferrer"
+        >
+          roadmap
+        </a>{" "}
+        for what&apos;s planned next.
       </Callout>
+
+      <h2>Inspect current backend count</h2>
+      <p>
+        Until proxying is live, the fastest way to confirm your backends parsed correctly is{" "}
+        <code>check</code> or the local status snapshot:
+      </p>
+      <CodeBlock code={`cupraflow check --config C:\\ProgramData\\CupraFlow\\config.toml`} language="powershell" />
     </Prose>
   );
 }

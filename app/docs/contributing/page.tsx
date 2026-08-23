@@ -30,8 +30,8 @@ export default function ContributingPage() {
       <h2>Local setup</h2>
       <CodeBlock
         code={`# Clone the repo
-git clone https://github.com/sb-mcampoe/cupra-flow.git
-cd oxi-pulse
+git clone https://github.com/securyblack/cupra-flow.git
+cd cupra-flow
 
 # Build in debug mode
 cargo build

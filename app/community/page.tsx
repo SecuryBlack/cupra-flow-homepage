@@ -14,14 +14,14 @@ const links = [
     icon: Github,
     title: "Source code",
     description: "Browse the full agent source. Fork it, audit it, build on it.",
-    href: "https://github.com/sb-mcampoe/cupra-flow",
+    href: "https://github.com/securyblack/cupra-flow",
     cta: "View on GitHub",
   },
   {
     icon: Bug,
     title: "Report a bug",
     description: "Found something wrong? Open an issue and we'll investigate.",
-    href: "https://github.com/sb-mcampoe/cupra-flow/issues/new?template=bug_report.md",
+    href: "https://github.com/securyblack/cupra-flow/issues/new?template=bug_report.md",
     cta: "Open issue",
   },
   {
@@ -35,14 +35,14 @@ const links = [
     icon: Star,
     title: "Star the repo",
     description: "Help other developers discover cupraflow.",
-    href: "https://github.com/sb-mcampoe/cupra-flow",
+    href: "https://github.com/securyblack/cupra-flow",
     cta: "Star on GitHub",
   },
   {
     icon: FileText,
     title: "License",
     description: "Apache 2.0 ” free to use, modify, and distribute commercially.",
-    href: "https://github.com/sb-mcampoe/cupra-flow/blob/main/LICENSE",
+    href: "https://github.com/securyblack/cupra-flow/blob/main/LICENSE",
     cta: "Read license",
   },
 ];
@@ -62,13 +62,13 @@ export default function CommunityPage() {
           </p>
           <div className="flex flex-wrap justify-center gap-3 mt-8">
             <Button
-              href="https://github.com/sb-mcampoe/cupra-flow"
+              href="https://github.com/securyblack/cupra-flow"
               variant="primary"
               size="md"
               external
             >
               <Github size={16} />
-              sb-mcampoe/cupra-flow
+              securyblack/cupra-flow
             </Button>
           </div>
         </div>

@@ -21,7 +21,7 @@ export default function DocsIntroduction() {
 
       <Callout variant="success">
         cupraflow is free and open source under the{" "}
-        <a href="https://github.com/sb-mcampoe/cupra-flow/blob/main/LICENSE">Apache 2.0 license</a>.
+        <a href="https://github.com/securyblack/cupra-flow/blob/main/LICENSE">Apache 2.0 license</a>.
         The agent source is fully auditable and requires no SecuryBlack infrastructure.
       </Callout>
 
@@ -62,7 +62,7 @@ export default function DocsIntroduction() {
       <h2>Licensing</h2>
       <p>
         The agent is licensed under{" "}
-        <a href="https://github.com/sb-mcampoe/cupra-flow/blob/main/LICENSE">Apache 2.0</a>. You
+        <a href="https://github.com/securyblack/cupra-flow/blob/main/LICENSE">Apache 2.0</a>. You
         can use it in commercial projects, modify it, and distribute it without restriction. All
         dependencies are Apache-2.0 or MIT compatible ” no GPL, no LGPL.
       </p>

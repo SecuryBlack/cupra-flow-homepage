@@ -50,7 +50,7 @@ const linuxSteps = [
   {
     step: "1",
     title: "Download the latest release",
-    code: `curl -fsSL https://github.com/sb-mcampoe/cupra-flow/releases/latest/download/cupra-flow-x86_64-pc-windows-msvc.zip -o cupraflow.zip`,
+    code: `curl -fsSL https://github.com/securyblack/cupra-flow/releases/latest/download/cupra-flow-x86_64-pc-windows-msvc.zip -o cupraflow.zip`,
     language: "bash",
   },
   {

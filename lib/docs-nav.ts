@@ -25,9 +25,10 @@ export const docsNav: NavGroup[] = [
   {
     label: "Agent",
     items: [
-      { title: "Metrics",        href: "/docs/metrics" },
-      { title: "Offline buffer", href: "/docs/offline-buffer" },
-      { title: "Auto-update",    href: "/docs/auto-update" },
+      { title: "Status snapshot",   href: "/docs/metrics" },
+      { title: "Backends & health checks", href: "/docs/offline-buffer" },
+      { title: "Updating",       href: "/docs/auto-update" },
+      { title: "CLI & live status", href: "/docs/cli" },
     ],
   },
   {

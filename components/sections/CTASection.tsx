@@ -42,7 +42,7 @@ export function CTASection() {
                 <ArrowRight size={16} />
               </Button>
               <Button
-                href="https://github.com/sb-mcampoe/cupra-flow"
+                href="https://github.com/securyblack/cupra-flow"
                 variant="ghost"
                 size="lg"
                 external

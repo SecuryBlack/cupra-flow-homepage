@@ -45,7 +45,7 @@ export default function ChangelogPage() {
             </p>
           </div>
           <Button
-            href="https://github.com/sb-mcampoe/cupra-flow/releases"
+            href="https://github.com/securyblack/cupra-flow/releases"
             variant="outline"
             size="sm"
             external
@@ -73,7 +73,7 @@ export default function ChangelogPage() {
                 {/* Version header */}
                 <div className="flex flex-wrap items-center gap-3 mb-2">
                   <a
-                    href={`https://github.com/sb-mcampoe/cupra-flow/releases/tag/v${entry.version}`}
+                    href={`https://github.com/securyblack/cupra-flow/releases/tag/v${entry.version}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-2xl font-bold text-[var(--color-text)] hover:text-[var(--color-primary)] transition-colors"

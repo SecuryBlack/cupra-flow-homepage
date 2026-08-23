@@ -118,7 +118,7 @@ const linuxSteps = [
         </p>
         <Callout variant="info">
           Track progress on{" "}
-          <a href="https://github.com/sb-mcampoe/cupra-flow/issues" className="text-[var(--color-primary)] hover:underline">
+          <a href="https://github.com/securyblack/cupra-flow/issues" className="text-[var(--color-primary)] hover:underline">
             GitHub Issues
           </a>.
         </Callout>
@@ -328,7 +328,7 @@ Remove-Item -Recurse -Force "C:\ProgramData\cupraflow"`}
               {
                 title: "Contributing",
                 description: "Open an issue or submit a PR on GitHub.",
-                href: "https://github.com/sb-mcampoe/cupra-flow",
+                href: "https://github.com/securyblack/cupra-flow",
               },
               {
                 title: "Changelog",

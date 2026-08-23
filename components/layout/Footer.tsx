@@ -5,7 +5,7 @@ const footerLinks = {
   Product: [
     { label: "Install",   href: "/install" },
     { label: "Changelog", href: "/changelog" },
-    { label: "Roadmap",   href: "https://github.com/sb-mcampoe/cupra-flow/issues", external: true },
+    { label: "Roadmap",   href: "https://github.com/securyblack/cupra-flow/issues", external: true },
   ],
   Docs: [
     { label: "Introduction",  href: "/docs" },
@@ -14,9 +14,9 @@ const footerLinks = {
     { label: "Contributing",  href: "/docs/contributing" },
   ],
   Community: [
-    { label: "GitHub",  href: "https://github.com/sb-mcampoe/cupra-flow", external: true },
-    { label: "Issues",  href: "https://github.com/sb-mcampoe/cupra-flow/issues", external: true },
-    { label: "License", href: "https://github.com/sb-mcampoe/cupra-flow/blob/main/LICENSE", external: true },
+    { label: "GitHub",  href: "https://github.com/securyblack/cupra-flow", external: true },
+    { label: "Issues",  href: "https://github.com/securyblack/cupra-flow/issues", external: true },
+    { label: "License", href: "https://github.com/securyblack/cupra-flow/blob/main/LICENSE", external: true },
   ],
 };
 
@@ -39,13 +39,13 @@ export function Footer() {
               Load balancer and network management agent for Windows. Written in Rust.
             </p>
             <a
-              href="https://github.com/sb-mcampoe/cupra-flow"
+              href="https://github.com/securyblack/cupra-flow"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm text-[var(--color-muted)] hover:text-[var(--color-primary)] transition-colors"
             >
               <Github size={15} />
-              sb-mcampoe/cupra-flow
+              securyblack/cupra-flow
             </a>
             <div className="mt-5 pt-4 border-t border-[var(--color-border)]">
               <p className="text-xs text-[var(--color-muted)] mb-1">Made by</p>
