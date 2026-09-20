@@ -2,7 +2,7 @@
   "name": "cupra-flow-homepage",
   "version": "0.1.0",
   "private": true,
-  "description": "Landing page oficial de cupra-flow (SecuryBlack)",
+  "description": "Official landing page for cupra-flow (SecuryBlack)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
