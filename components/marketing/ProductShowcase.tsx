@@ -40,8 +40,7 @@ export function ProductShowcase() {
   const [blockedIp, setBlockedIp] = useState<boolean>(false);
 
   // State for CupraFlow simulation
-  const [vipMaster, setVipMaster] = useState<"node-01" | "node-02">("node-01");
-  const [failoverInProgress, setFailoverInProgress] = useState<boolean>(false);
+  const [localDown, setLocalDown] = useState<boolean>(false);
 
   /* --- TitanVault handlers --- */
   const handleTestConnection = () => {
@@ -100,13 +99,10 @@ export function ProductShowcase() {
   };
 
   /* --- CupraFlow handlers --- */
-  const triggerFailover = () => {
-    if (failoverInProgress) return;
-    setFailoverInProgress(true);
-    setTimeout(() => {
-      setVipMaster((prev) => (prev === "node-01" ? "node-02" : "node-01"));
-      setFailoverInProgress(false);
-    }, 450);
+  const triggerLocalDown = () => {
+    setActiveTab(3);
+    setLocalDown(true);
+    setTimeout(() => setLocalDown(false), 4000);
   };
 
   /* ==========================================================================
@@ -131,10 +127,10 @@ export function ProductShowcase() {
     }
     if (agentId.includes("cupra")) {
       return [
-        { id: 0, label: "1. VIP State & Interfaces", icon: Network },
-        { id: 1, label: "2. Keepalived VRRP Nodes", icon: Server },
-        { id: 2, label: "3. WireGuard Mesh Peers", icon: Shield },
-        { id: 3, label: "4. L4/L7 Health Checks", icon: Activity },
+        { id: 0, label: "1. Routes", icon: Network },
+        { id: 1, label: "2. Traffic per Domain", icon: Activity },
+        { id: 2, label: "3. Certificates", icon: Lock },
+        { id: 3, label: "4. Peers", icon: Server },
       ];
     }
     // Default: TitanVault
@@ -451,100 +447,85 @@ export function ProductShowcase() {
           {agentId.includes("cupra") && (
             <>
               {activeTab === 0 && (
-                <div className="space-y-4">
-                  <div className="text-zinc-500 text-xs">
-                    // Virtual IP (VIP) state & VRRP advertisement
-                  </div>
-                  <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-3">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-white font-bold">Virtual IP: 192.168.10.100/24</span>
-                      <span
-                        className={`font-semibold px-2 py-0.5 rounded ${
-                          vipMaster === "node-01"
-                            ? "bg-emerald-950/80 text-emerald-300 border border-emerald-800"
-                            : "bg-zinc-800 text-zinc-400"
-                        }`}
-                      >
-                        {vipMaster === "node-01" ? "● LOCAL MASTER" : "○ BACKUP STANDBY"}
-                      </span>
+                <div className="space-y-3">
+                  <div className="text-zinc-500 text-xs">// Routes live in sb-caddy (route_list)</div>
+                  <div className="divide-y divide-zinc-800/60 text-xs">
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">example.com → 127.0.0.1:20000</span>
+                      <span className="text-emerald-400 font-mono">HTTPS · ACME</span>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-zinc-400 pt-2 border-t border-zinc-800">
-                      <div>
-                        Interface: <span className="text-white font-mono">eth0</span>
-                      </div>
-                      <div>
-                        Virtual MAC: <span className="text-white font-mono">00:00:5e:00:01:01</span>
-                      </div>
-                      <div>
-                        Priority: <span className="text-white font-mono">110</span>
-                      </div>
-                      <div>
-                        VRRP Advert: <span className="text-white font-mono">1000ms</span>
-                      </div>
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">www.example.com</span>
+                      <span className="text-zinc-400 font-mono">301 → example.com</span>
+                    </div>
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">api.example.com /v1 → 127.0.0.1:8000</span>
+                      <span className="text-emerald-400 font-mono">HTTPS · h2c</span>
+                    </div>
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">admin.example.com (allow 100.64.0.0/10)</span>
+                      <span className="text-amber-400 font-mono">403 for others</span>
                     </div>
                   </div>
-
-                  {failoverInProgress && (
-                    <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-500/50 text-xs text-amber-300 animate-pulse">
-                      ⚡ Conmutando VIP failover hacia el nodo secundario en 340ms...
-                    </div>
-                  )}
                 </div>
               )}
 
               {activeTab === 1 && (
                 <div className="space-y-3">
-                  <div className="text-zinc-500 text-xs">// Cluster Nodes & VRRP priority hierarchy</div>
+                  <div className="text-zinc-500 text-xs">// Last minute per domain, sent to the panel over OTLP</div>
                   <div className="divide-y divide-zinc-800/60 text-xs">
-                    <div className="py-2.5 flex items-center justify-between">
-                      <div>
-                        <span className="text-white font-medium">node-01 (This Node - BareMetal)</span>
-                        <div className="text-[11px] text-zinc-500">Priority: 110 · Ping: 0.02ms</div>
-                      </div>
-                      <span className="text-emerald-400 font-mono font-semibold">
-                        {vipMaster === "node-01" ? "[HOLDING VIP]" : "[STANDBY]"}
-                      </span>
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">example.com</span>
+                      <span className="text-emerald-400 font-mono">742 req · 0 4xx · 0 5xx · p50 18 ms</span>
                     </div>
-                    <div className="py-2.5 flex items-center justify-between">
-                      <div>
-                        <span className="text-white font-medium">node-02 (Hetzner Cloud VPS)</span>
-                        <div className="text-[11px] text-zinc-500">Priority: 100 · Ping: 0.42ms</div>
-                      </div>
-                      <span className="text-zinc-400 font-mono font-semibold">
-                        {vipMaster === "node-02" ? "[HOLDING VIP]" : "[BACKUP ONLINE]"}
-                      </span>
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">api.example.com</span>
+                      <span className="text-emerald-400 font-mono">96 req · 2 4xx · 0 5xx · p50 41 ms</span>
                     </div>
                   </div>
                 </div>
               )}
 
               {activeTab === 2 && (
-                <div className="space-y-4">
-                  <div className="text-zinc-500 text-xs">// Encrypted WireGuard P2P Mesh Overlay</div>
-                  <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-2 text-xs">
-                    <div className="flex items-center justify-between">
-                      <span className="text-white font-medium">Interface wg0 (10.88.0.1/24)</span>
-                      <span className="text-emerald-400 font-semibold">[● MESH READY]</span>
+                <div className="space-y-3">
+                  <div className="text-zinc-500 text-xs">// Certificates stored by Caddy</div>
+                  <div className="divide-y divide-zinc-800/60 text-xs">
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">example.com</span>
+                      <span className="text-emerald-400 font-mono">Let&apos;s Encrypt · 71 days left</span>
                     </div>
-                    <div className="text-zinc-400">Crypto: ChaCha20-Poly1305 · 4 active peers</div>
-                    <div className="text-zinc-500">MTU: 1420 · Handshake: 18s ago</div>
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">api.example.com</span>
+                      <span className="text-emerald-400 font-mono">Let&apos;s Encrypt · 64 days left</span>
+                    </div>
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">old-test.example.com</span>
+                      <span className="text-amber-400 font-mono">No route · can be removed</span>
+                    </div>
                   </div>
                 </div>
               )}
 
               {activeTab === 3 && (
-                <div className="space-y-3">
-                  <div className="text-zinc-500 text-xs">// L4/L7 Active health-checks</div>
+                <div className="space-y-4">
+                  <div className="text-zinc-500 text-xs">// example.com: local container first, peer if it is down</div>
                   <div className="divide-y divide-zinc-800/60 text-xs">
-                    <div className="py-2 flex items-center justify-between">
-                      <span className="text-white font-medium">check_http_api (HTTP :443 /health)</span>
-                      <span className="text-emerald-400 font-mono font-semibold">200 OK (1.2ms)</span>
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">local 127.0.0.1:20000 (/health)</span>
+                      <span className={`font-mono ${localDown ? "text-rose-400" : "text-emerald-400"}`}>
+                        {localDown ? "DOWN" : "HEALTHY"}
+                      </span>
                     </div>
-                    <div className="py-2 flex items-center justify-between">
-                      <span className="text-white font-medium">check_postgres (TCP :5432)</span>
-                      <span className="text-emerald-400 font-mono font-semibold">ACCEPT (0.4ms)</span>
+                    <div className="py-2.5 flex items-center justify-between gap-4">
+                      <span className="text-white font-medium">peer node-02 (HTTPS, SNI example.com)</span>
+                      <span className="text-zinc-400 font-mono">{localDown ? "SERVING" : "STANDBY"}</span>
                     </div>
                   </div>
+                  {localDown && (
+                    <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-500/50 text-xs text-amber-300">
+                      Local app down: GET requests go to node-02 with X-Sb-Peer: 1. A POST that may have reached the app is not repeated.
+                    </div>
+                  )}
                 </div>
               )}
             </>
@@ -786,11 +767,11 @@ export function ProductShowcase() {
 
             {agentId.includes("cupra") && (
               <button
-                onClick={triggerFailover}
+                onClick={triggerLocalDown}
                 className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 flex items-center gap-x-1.5 cursor-pointer transition-colors"
               >
                 <RefreshCw className="size-3.5 text-orange-400" />
-                <span>Simulate VIP Failover</span>
+                <span>Simulate Local App Down</span>
               </button>
             )}
 
